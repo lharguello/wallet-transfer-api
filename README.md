@@ -1,5 +1,3 @@
-Markdown
-
 # WalletTransfer API
 
 **WalletTransfer API** es una API RESTful construida con .NET 8 para gestionar billeteras y realizar transferencias de fondos entre ellas. La API sigue una arquitectura limpia, utiliza MediatR para la gestión de comandos y queries, y Entity Framework Core con MySQL para la persistencia. La documentación de la API se genera con Swagger/OpenAPI.
@@ -14,9 +12,6 @@ Markdown
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Paquetes NuGet](#paquetes-nuget)
 - [Configuración (`appsettings.json`)](#configuración-appsettingsjson)
-- [Pruebas Unitarias](#pruebas-unitarias)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
 
 ## Características
 
@@ -49,35 +44,35 @@ Asegúrate de tener instalados los siguientes elementos en tu sistema:
 
 ## Configuración
 
-1.  **Clonar el repositorio:**
+1. **Clonar el repositorio:**
     ```bash
-    git clone [https://github.com/lharguello/WalletTransferAPI.git](https://github.com/lharguello/WalletTransferAPI.git)
+    git clone https://github.com/lharguello/WalletTransferAPI.git
     cd WalletTransferAPI
     ```
 
-2.  **Configurar la base de datos:**
+2. **Configurar la base de datos:**
     - Revisa la sección `ConnectionStrings` en el archivo `appsettings.json` y actualiza los valores si es necesario para que coincidan con tu configuración de MySQL.
 
-3.  **Aplicar migraciones de Entity Framework Core:**
+3. **Aplicar migraciones de Entity Framework Core:**
     ```bash
     dotnet tool install --global dotnet-ef
-    dotnet ef database update -p ./src/WalletTransfer.Api.Infrastructure -s ./src/WalletTransfer.Api
+    update-database
     ```
     (Asegúrate de estar en la raíz del repositorio o ajusta las rutas de los proyectos según tu estructura).
 
 ## Ejecución
 
-1.  **Navegar al directorio del proyecto API:**
+1. **Navegar al directorio del proyecto API:**
     ```bash
     cd ./src/WalletTransfer.Api
     ```
 
-2.  **Ejecutar la aplicación:**
+2. **Ejecutar la aplicación:**
     ```bash
     dotnet run
     ```
 
-3.  **Acceder a la documentación de Swagger:**
+3. **Acceder a la documentación de Swagger:**
     - Abre tu navegador y ve a `https://localhost:7121/swagger/index.html`
 
 ## Endpoints de la API
@@ -97,18 +92,24 @@ Asegúrate de tener instalados los siguientes elementos en tu sistema:
 
 ## Estructura del Proyecto
 
-WalletTransfer.Api/             (Proyecto Principal/Presentación)
+```
+WalletTransfer.Api/             (Proyecto Principal)
+├── Program.cs
+├── appsettings.json
+└── ...
+WalletTransfer.Api.Presentation/             (Capa de Presentación)
 ├── Controllers/
 │   ├── TransactionsController.cs
 │   └── WalletsController.cs
 ├── Extensions/
 ├── Middleware/
-├── Program.cs
-├── appsettings.json
+├── Filters/
 └── ...
+
 WalletTransfer.Api.Application/   (Capa de Lógica de Aplicación)
 ├── Behaviors/
 ├── Dtos/
+|    └── Responses/
 ├── Exceptions/
 ├── Features/
 │   ├── Transactions/
@@ -118,10 +119,9 @@ WalletTransfer.Api.Application/   (Capa de Lógica de Aplicación)
 │   └── Wallets/
 │       ├── CreateWallet/
 │       ├── DeleteWallet/
-│       ├── UpdateWalletBalance/
+│       ├── UpdateWallet/
 │       └── ...
 ├── Mappers/
-├── Responses/
 └── Wrappers/
 WalletTransfer.Api.Core/          (Capa de Dominio)
 ├── Entities/
@@ -130,14 +130,15 @@ WalletTransfer.Api.Core/          (Capa de Dominio)
 ├── Enums/
 │   └── TransactionType.cs
 └── Interfaces/
-└── Repositories/
-├── IGenericRepository.cs
-├── ITransactionRepository.cs
-└── IWalletRepository.cs
+    └── Repositories/
+        ├── IGenericRepository.cs
+        ├── ITransactionRepository.cs
+        └── IWalletRepository.cs
 WalletTransfer.Api.Infrastructure/ (Capa de Infraestructura)
 ├── Data/
+|   └── EntityFramework/
 │   ├── ApplicationDbContext.cs
-│   ├── EntityConfigurations/
+│   ├── Configurations/
 │   │   ├── TransactionConfiguration.cs
 │   │   └── WalletConfiguration.cs
 │   └── Migrations/
@@ -146,25 +147,24 @@ WalletTransfer.Api.Infrastructure/ (Capa de Infraestructura)
 │   ├── TransactionRepository.cs
 │   └── WalletRepository.cs
 └── ...
-
+```
 
 ## Paquetes NuGet
 
-AutoMapper (14.0.0)
-FluentValidation.AspNetCore (11.3.0)
-MediatR (12.5.0)
-MicroElements.Swashbuckle.FluentValidation (6.1.0)
-Microsoft.EntityFrameworkCore.Tools (8.0.10)
-Newtonsoft.Json (13.0.3)
-Pomelo.EntityFrameworkCore.MySql (8.0.2)
-Pomelo.EntityFrameworkCore.MySql.Design (1.1.2)
-Serilog (4.2.0)
-Serilog.AspNetCore (9.0.0)
-Serilog.Extensions.Hosting (9.0.0)
-Serilog.Settings.Configuration (9.0.0)
-Swashbuckle.AspNetCore (6.1.1)
-Swashbuckle.AspNetCore.Newtonsoft (6.1.1)
-
+- AutoMapper (14.0.0)  
+- FluentValidation.AspNetCore (11.3.0)  
+- MediatR (12.5.0)  
+- MicroElements.Swashbuckle.FluentValidation (6.1.0)  
+- Microsoft.EntityFrameworkCore.Tools (8.0.10)  
+- Newtonsoft.Json (13.0.3)  
+- Pomelo.EntityFrameworkCore.MySql (8.0.2)  
+- Pomelo.EntityFrameworkCore.MySql.Design (1.1.2)  
+- Serilog (4.2.0)  
+- Serilog.AspNetCore (9.0.0)  
+- Serilog.Extensions.Hosting (9.0.0)  
+- Serilog.Settings.Configuration (9.0.0)  
+- Swashbuckle.AspNetCore (6.1.1)  
+- Swashbuckle.AspNetCore.Newtonsoft (6.1.1)  
 
 ## Configuración (`appsettings.json`)
 
@@ -214,4 +214,4 @@ Swashbuckle.AspNetCore.Newtonsoft (6.1.1)
   "AllowedHosts": "*",
   "ApiKey": "YjAxZmM5ODMtZjgyNi00ZWFjLTlkNjgtMjE5ZDQxMzFiN2Iz"
 }
-
+```
